@@ -259,7 +259,7 @@ function QuakeSelect(num) {
             }
         });
     } else {
-        alert("震度速報の地図描画にはまだ対応していません。");
+        //alert("震度速報の地図描画にはまだ対応していません。");
     }
 
     if (QuakeJson[num]["issue"]["type"] == "DetailScale" || QuakeJson[num]["issue"]["type"] == "ScaleAndDestination") {
