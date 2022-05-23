@@ -331,7 +331,11 @@ function QuakeSelect(num) {
         document.getElementById("hypo").innerText = QuakeJson[num]["earthquake"]["hypocenter"]["name"];
         document.getElementById("time").innerText = QuakeJson[num]["earthquake"]["time"].slice(0, -3) + "発生";
         document.getElementById("mag").innerText = "規模 : M" + QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"];
-        document.getElementById("depth").innerText = "深さ : " + QuakeJson[num]["earthquake"]["hypocenter"]["depth"] + "km";
+        if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == 0) {
+            document.getElementById("depth").innerText = "深さ : ごく浅い";
+        } else {
+            document.getElementById("depth").innerText = "深さ : " + QuakeJson[num]["earthquake"]["hypocenter"]["depth"] + "km";
+        }
         document.getElementById("tsunami").innerText = tsunamiText;
         document.getElementById("maxshindo").innerText = "最大震度 : " + maxScale;
     } else {
