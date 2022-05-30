@@ -8,4 +8,3 @@
 
 ## その他
 制作者 : Ameuma773 / Twitter : @Ameuma773
-このサイトのソースは、githubに公開しています。
