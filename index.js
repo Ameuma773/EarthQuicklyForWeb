@@ -12,6 +12,18 @@ var JMAPointsJson;
 var QuakeJson;
 var id;
 var marker = L.featureGroup();
+var EEWJson;
+var anyMin = 0;
+var NowMode = 0;
+var GetTiming = 0;
+var GetEEWInterval = 2;
+var GetQuakeInterval = 30000;
+if (localStorage.getItem('EEWInterval') != null) {
+    GetEEWInterval = localStorage.getItem('EEWInterval');
+}
+if (localStorage.getItem('QuakeInterval') != null) {
+    GetQuakeInterval = Number(localStorage.getItem('QuakeInterval')) * 1000;
+}
 
 let select = document.querySelector('[name="num"]');
 
@@ -20,10 +32,25 @@ select.onchange = event => {
     QuakeSelect(select.selectedIndex);
 }
 
+var PW = L.circle([0, 0], {
+    radius: 0,
+    color: 'blue',
+    fillColor: 'blue',
+    fillOpacity: 0.1,
+}).addTo(map);
+
+var SW = L.circle([0, 0], {
+    radius: 0,
+    color: 'red',
+    fillColor: 'red',
+    fillOpacity: 0.1,
+}).addTo(map);
+
 GetJson();
 GetQuake();
+setInterval(GetEEW, 1000);
 
-const GetInterval = setInterval(GetQuake, 30000);
+setInterval(GetQuake, 30000);
 
 async function GetQuake() {
     var date = new Date();
@@ -94,12 +121,17 @@ async function GetQuake() {
                         MojiColor = "rgb(255, 255, 255)";
                     }
                     const option = document.createElement("option");
-
+                    var Kibo = Number(QuakeJson[int]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1);
+                    if (Kibo == -1) {
+                        Kibo = "不明";
+                    }
                     var text;
-                    if (QuakeJson[int]["issue"]["type"] != "ScalePrompt") {
-                        text = QuakeJson[int]["earthquake"]["time"].slice(0, -3) + " " + QuakeJson[int]["earthquake"]["hypocenter"]["name"] + " " + "M" + QuakeJson[int]["earthquake"]["hypocenter"]["magnitude"] + "\n" + "\n最大震度 : " + maxScale+" ";
+                    if (QuakeJson[int]["issue"]["type"] != "ScalePrompt" && QuakeJson[int]["issue"]["type"] != "Foreign") {
+                        text = QuakeJson[int]["earthquake"]["time"].slice(0, -3) + " " + QuakeJson[int]["earthquake"]["hypocenter"]["name"] + " " + "M" + Kibo + "\n" + "\n最大震度 : " + maxScale + " ";
+                    } else if (QuakeJson[int]["issue"]["type"] == "Foreign") {
+                        text = "【遠地地震】" + QuakeJson[int]["earthquake"]["time"].slice(0, -3) + " " + QuakeJson[int]["earthquake"]["hypocenter"]["name"] + " " + "M" + Kibo;
                     } else {
-                        text = "【震度速報】" + QuakeJson[int]["points"][0]["addr"] + "など " + "\n" + QuakeJson[int]["earthquake"]["time"].slice(0, -3) + "\n最大震度 : " + maxScale+" ";
+                        text = "【震度速報】" + QuakeJson[int]["points"][0]["addr"] + "など " + "\n" + QuakeJson[int]["earthquake"]["time"].slice(0, -3) + "\n最大震度 : " + maxScale + " ";
                     }
 
                     option.value = "" + int + "";
@@ -113,6 +145,10 @@ async function GetQuake() {
 }
 
 function QuakeSelect(num) {
+    NowMode = 0;
+    document.getElementById("NowMode").innerText = "地震情報画面";
+    PW.setRadius(0);
+    SW.setRadius(0);
 
     marker = L.featureGroup();
 
@@ -264,10 +300,16 @@ function QuakeSelect(num) {
 
     if (QuakeJson[num]["issue"]["type"] == "DetailScale" || QuakeJson[num]["issue"]["type"] == "ScaleAndDestination") {
         map.fitBounds(marker.getBounds());
-    } else if (QuakeJson[num]["issue"]["type"] == "Destination" || QuakeJson[num]["issue"]["type"] == "Foreign") {
-        map.flyTo(new L.LatLng(QuakeJson[num]["earthquake"]["hypocenter"]["latitude"], QuakeJson[num]["earthquake"]["hypocenter"]["longitude"]), 40 / QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"], { duration: 1 });
+    } else if (QuakeJson[num]["issue"]["type"] == "Destination") {
+        if (Number(QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1) < 5.5) {
+            map.flyTo(new L.LatLng(QuakeJson[num]["earthquake"]["hypocenter"]["latitude"], QuakeJson[num]["earthquake"]["hypocenter"]["longitude"]), 30 / (Number(QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1)), { duration: 1 });
+        } else {
+            map.flyTo(new L.LatLng(QuakeJson[num]["earthquake"]["hypocenter"]["latitude"], QuakeJson[num]["earthquake"]["hypocenter"]["longitude"]), 45 / (Number(QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1)), { duration: 1 });
+        }
     } else if (QuakeJson[num]["issue"]["type"] == "ScalePrompt") {
         map.flyTo(new L.LatLng(36.575, 135.984), 5, { duration: 1 });
+    } else if (QuakeJson[num]["issue"]["type"] == "Foreign") {
+        map.flyTo(new L.LatLng(QuakeJson[num]["earthquake"]["hypocenter"]["latitude"], QuakeJson[num]["earthquake"]["hypocenter"]["longitude"]), 3, { duration: 1 });
     }
     var maxScale;
     var maxColor;
@@ -327,17 +369,50 @@ function QuakeSelect(num) {
         tsunamiText = "津波情報が発表されています。"
     }
 
-    if (QuakeJson[num]["issue"]["type"] != "ScalePrompt") {
+    if (QuakeJson[num]["issue"]["type"] != "ScalePrompt" && QuakeJson[num]["issue"]["type"] != "Foreign") {
         document.getElementById("hypo").innerText = QuakeJson[num]["earthquake"]["hypocenter"]["name"];
         document.getElementById("time").innerText = QuakeJson[num]["earthquake"]["time"].slice(0, -3) + "発生";
-        document.getElementById("mag").innerText = "規模 : M" + QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"];
+        if (QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"] == -1) {
+            document.getElementById("mag").innerText = "規模 : 不明";
+        } else {
+            document.getElementById("mag").innerText = "規模 : M" + Number(QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1);
+        }
+
         if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == 0) {
             document.getElementById("depth").innerText = "深さ : ごく浅い";
+        } else if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == -1) {
+            document.getElementById("depth").innerText = "深さ : 不明";
         } else {
             document.getElementById("depth").innerText = "深さ : " + QuakeJson[num]["earthquake"]["hypocenter"]["depth"] + "km";
         }
         document.getElementById("tsunami").innerText = tsunamiText;
         document.getElementById("maxshindo").innerText = "最大震度 : " + maxScale;
+    } else if (QuakeJson[num]["issue"]["type"] == "Foreign") {
+        document.getElementById("hypo").innerText = QuakeJson[num]["earthquake"]["hypocenter"]["name"];
+        document.getElementById("time").innerText = QuakeJson[num]["earthquake"]["time"].slice(0, -3) + "発生";
+
+        if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == -1 && QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"] == -1) {
+            document.getElementById("mag").innerText = "大規模な噴火";
+            document.getElementById("depth").innerText = "";
+            document.getElementById("maxshindo").innerText = "";
+        } else {
+            if (QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"] == -1) {
+                document.getElementById("mag").innerText = "規模 : 不明";
+            } else {
+                document.getElementById("mag").innerText = "規模 : M" + Number(QuakeJson[num]["earthquake"]["hypocenter"]["magnitude"]).toFixed(1);
+            }
+
+            if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == 0) {
+                document.getElementById("depth").innerText = "深さ : ごく浅い";
+            } else if (QuakeJson[num]["earthquake"]["hypocenter"]["depth"] == -1) {
+                document.getElementById("depth").innerText = "深さ : 不明";
+            } else {
+                document.getElementById("depth").innerText = "深さ : " + QuakeJson[num]["earthquake"]["hypocenter"]["depth"] + "km";
+            }
+
+            document.getElementById("maxshindo").innerText = "";
+        }
+        document.getElementById("tsunami").innerText = tsunamiText;
     } else {
         document.getElementById("hypo").innerText = QuakeJson[num]["points"][0]["addr"] + "など";
         document.getElementById("time").innerText = QuakeJson[num]["earthquake"]["time"].slice(0, -3) + "発生";
@@ -358,6 +433,159 @@ async function GetJson() {
         });
 }
 
-function about(){
+function about() {
     window.location.href = "about.html";
+}
+
+//EEW
+async function GetEEW() {
+    var date = new Date();
+    date.setSeconds(date.getSeconds() - 3);
+    date.setMinutes(date.getMinutes() - anyMin);
+    const NowTime = date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2) + '' + ('0' + date.getHours()).slice(-2) + '' + ('0' + date.getMinutes()).slice(-2) + '' + ('0' + date.getSeconds()).slice(-2);
+    const NowClockTime = date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+    const NowDay = date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
+    const url = "https://weather-kyoshin.east.edge.storage-yahoo.jp/RealTimeData/" + NowDay + "/" + NowTime + ".json";
+
+    if (GetTiming >= GetEEWInterval - 1) {
+        const response = await fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                EEWJson = data;
+                if (data["psWave"] != null && data["hypoInfo"] != null) {
+                    ShowEEW(data);
+                } else if (NowMode == 1) {
+                    QuakeSelect(0);
+                }
+            })
+        GetTiming = 0;
+    } else {
+        GetTiming++;
+    }
+    document.getElementById("Clock").innerText = NowClockTime;
+}
+
+function ShowEEW(Json) {
+    NowMode = 1;
+    document.getElementById("NowMode").innerText = "緊急地震速報画面";
+    map.eachLayer(function (layer) {
+
+        if (layer.myTag && layer.myTag === "Shindo") {
+            map.removeLayer(layer)
+        }
+        if (layer.myTag && layer.myTag === "Shingen") {
+            map.removeLayer(layer)
+        }
+        layer = null;
+    });
+
+    var Final = "";
+    if (Json["hypoInfo"]["items"][0]["isFinal"] == true) {
+        Final = "※最終報";
+    }
+
+    var timeDate = new Date(Date.parse(Json["hypoInfo"]["items"][0]["originTime"]));
+    var time = timeDate.getFullYear() + '/' + ('0' + (timeDate.getMonth() + 1)).slice(-2) + '/' + ('0' + timeDate.getDate()).slice(-2) + ' ' + ('0' + timeDate.getHours()).slice(-2) + ':' + ('0' + timeDate.getMinutes()).slice(-2) + ':' + ('0' + timeDate.getSeconds()).slice(-2);
+    document.getElementById("hypo").innerText = Json["hypoInfo"]["items"][0]["regionName"];
+    document.getElementById("time").innerText = time + "発生";
+    document.getElementById("mag").innerText = "規模 : M" + Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1);
+    document.getElementById("depth").innerText = "深さ : " + Json["hypoInfo"]["items"][0]["depth"];
+    document.getElementById("tsunami").innerText = "緊急地震速報 第" + Json["hypoInfo"]["items"][0]["reportNum"] + "報" + Final;
+
+    var maxScale;
+    var maxColor;
+    var MojiColor;
+    if (Json["hypoInfo"]["items"][0]["calcintensity"] == "01") {
+        maxScale = "1";
+        maxColor = "rgb(70, 100, 110)";
+        MojiColor = "rgb(255, 255, 255)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "02") {
+        maxScale = "2";
+        maxColor = "rgb(30, 110, 230)";
+        MojiColor = "rgb(255, 255, 255)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "03") {
+        maxScale = "3";
+        maxColor = "rgb(0, 200, 200)";
+        MojiColor = "rgb(0, 0, 0)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "04") {
+        maxScale = "4";
+        maxColor = "rgb(250, 250, 100)";
+        MojiColor = "rgb(0, 0, 0)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "5-") {
+        maxScale = "5弱";
+        maxColor = "rgb(255, 180, 0)";
+        MojiColor = "rgb(0, 0, 0)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "5+") {
+        maxScale = "5強";
+        maxColor = "rgb(255, 120, 0)";
+        MojiColor = "rgb(0, 0, 0)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "6-") {
+        maxScale = "6弱";
+        maxColor = "rgb(230, 0, 0)";
+        MojiColor = "rgb(255, 255, 255)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "6+") {
+        maxScale = "6強";
+        maxColor = "rgb(160, 0, 0)";
+        MojiColor = "rgb(255, 255, 255)";
+    } else if (Json["hypoInfo"]["items"][0]["calcintensity"] == "07") {
+        maxScale = "7";
+        maxColor = "rgb(150, 0, 150)";
+        MojiColor = "rgb(255, 255, 255)";
+    } else {
+        maxScale = "不明";
+        maxColor = "rgb(0, 139, 139)";
+        MojiColor = "rgb(255, 255, 255)";
+    }
+    document.getElementById("maxshindo").innerText = "推定最大震度 : " + maxScale;
+
+    document.getElementById("quakeinfo").style.backgroundColor = maxColor;
+    document.getElementById("quakeinfo").style.color = MojiColor;
+
+    var geojsonFeature = [{
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [Json["hypoInfo"]["items"][0]["longitude"].slice(1), Json["hypoInfo"]["items"][0]["latitude"].slice(1)]
+        }
+    }];
+    L.geoJson(geojsonFeature,
+        {
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.popupContent) {
+                    layer.bindPopup(feature.properties.popupContent);
+                }
+                layer.myTag = "Shingen"
+            },
+            pointToLayer: function (feature, latlng) {
+                var myIcon = L.icon({
+                    iconUrl: 'Source/Singen.png',
+                    iconSize: [50, 50],
+                    popupAnchor: [0, -40]
+                });
+                return L.marker(latlng, { icon: myIcon, zIndexOffset: 100 });
+            }
+        }
+    ).addTo(map);
+
+    var Pr = Json["psWave"]["items"][0]["pRadius"] * 1000;
+    var Sr = Json["psWave"]["items"][0]["sRadius"] * 1000;
+    var center = new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1));
+    PW.setLatLng(center);
+    SW.setLatLng(center);
+    PW.setRadius(Pr);
+    SW.setRadius(Sr);
+    if ((Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)) < 5.5) {
+        map.flyTo(new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1)), 30 / (Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)), { duration: 0.5 });
+    } else {
+        map.flyTo(new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1)), 45 / (Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)), { duration: 0.5 });
+    }
+}
+
+function test() {
+    num = window.prompt("何分遡りますか？", "");
+    anyMin = num;
+}
+
+function setting() {
+    window.location.href = "setting.html";
 }

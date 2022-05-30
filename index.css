@@ -58,7 +58,7 @@ body {
     left: 10px;
     position: absolute;
 }
-#About{
+#Clock{
     width: 50%;
     height: 185px;
     bottom: -20px;
@@ -68,15 +68,53 @@ body {
     background-color: darkblue;
 }
 #aboutbutton{
-    top: 0px;
     right: 0px;
+    bottom: 93px;
     z-index: 2000;
     position: absolute;
-    width: 30%;
-    height: 5%;
+    width: 200px;
+    height: 60px;
     background-color: midnightblue;
     font-size: 20px;
     color: white;
     border-radius: 10px;
+    border-color: white;
     cursor: pointer;
+}
+#settingbutton{
+    right: 200px;
+    bottom: 93px;
+    z-index: 2000;
+    position: absolute;
+    width: 200px;
+    height: 60px;
+    background-color: midnightblue;
+    font-size: 20px;
+    color: white;
+    border-radius: 10px;
+    border-color: white;
+    cursor: pointer;
+}
+#MapAbout{
+    position: absolute;
+    bottom: 166px;
+    height: 30px;
+    width: 400px;
+    left: 0px;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+}
+#NowMode{
+    top: -20px;
+    right: 0;
+    z-index: 2000;
+    position: absolute;
+    width: 210px;
+    height: 40px;
+    background-color: midnightblue;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
