@@ -67,6 +67,20 @@ body {
     text-align: right;
     background-color: darkblue;
 }
+#testbutton{
+    right: 300px;
+    bottom: 93px;
+    z-index: 2000;
+    position: absolute;
+    width: 100px;
+    height: 60px;
+    background-color: midnightblue;
+    font-size: 20px;
+    color: white;
+    border-radius: 10px;
+    border-color: white;
+    cursor: pointer;
+}
 #aboutbutton{
     right: 0px;
     bottom: 93px;
@@ -86,7 +100,7 @@ body {
     bottom: 93px;
     z-index: 2000;
     position: absolute;
-    width: 200px;
+    width: 100px;
     height: 60px;
     background-color: midnightblue;
     font-size: 20px;
