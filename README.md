@@ -12,7 +12,7 @@ URL : https://ameuma773.github.io/EarthQuicklyForWeb/
 
 震度配色に、compo031さん制作の「Kiwi Monitor カラースキーム 第2版」の一部を利用しています。
 
-##ライセンス
+## ライセンス
 MITライセンスです。詳細はライセンス参照。
 
 ## その他
