@@ -10,7 +10,7 @@ URL : https://ameuma773.github.io/EarthQuicklyForWeb/
 
 気象庁発表の緊急地震速報を、Yahoo強震モニタから取得しています。
 
-震度配色に、compo031さん制作の「Kiwi Monitor カラースキーム 第2版」の一部を利用しています。
+震度配色に、こんぽさん制作の「Kiwi Monitor カラースキーム 第2版」の一部を利用しています。
 
 ## ライセンス
 MITライセンスです。詳細はライセンス参照。
