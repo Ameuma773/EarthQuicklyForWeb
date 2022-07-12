@@ -55,7 +55,7 @@ setInterval(GetQuake, GetQuakeInterval);
 async function GetQuake() {
     var date = new Date();
 
-    const url = "https://api.p2pquake.net/v2/jma/quake?limit=50";
+    const url = "https://api.p2pquake.net/v2/history?codes=551&limit=50";
 
     const response = await fetch(url)
         .then(response => response.json())
