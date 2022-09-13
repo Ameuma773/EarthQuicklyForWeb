@@ -38,7 +38,7 @@
     <button onclick="test()" id="testbutton" style="display: none;">リプレイ</button>
     <button onclick="about()" id="aboutbutton" style="display: none;">このサイトについて</button>
     <button onclick="setting()" id="settingbutton" style="display: none;">設定</button>
-    <h2 id="NowMode">地震情報画面</h2>
+    <h2 id="NowMode">地震情報</h2>
     <h2 id="Clock" style="display: none;">0000/00/00 00:00:00</h2>
     <select id="QuakeList" name="num" style="display: none;">
     </select>
@@ -184,7 +184,7 @@ async function GetQuake() {
 
 function QuakeSelect(num) {
     NowMode = 0;
-    document.getElementById("NowMode").innerText = "地震情報画面";
+    //document.getElementById("NowMode").innerText = "地震情報画面";
     PW.setRadius(0);
     SW.setRadius(0);
 
