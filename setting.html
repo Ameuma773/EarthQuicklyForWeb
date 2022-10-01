@@ -22,10 +22,14 @@
         <h1>データ取得頻度の設定</h1>
         <h2>EEW取得間隔</h2>
         <input type="range" min="1" max="15" step="1" value="2" id="EEWInt">
-        <h3 id="EEWNowInt">2秒</h3>
+        <h3 id="EEWNowInt">2秒（初期設定）</h3>
         <h2>地震情報取得間隔</h2>
         <input type="range" min="15" max="100" step="5" value="30" id="QuakeInt">
-        <h3 id="QuakeNowInt">30秒</h3>
+        <h3 id="QuakeNowInt">30秒（初期設定）</h3>
+        <h2>地震情報の描画設定</h2>
+        <input type="radio" name="q1" value="0"> 観測点のみ描画
+        <input type="radio" name="q1" value="1"> 観測点の描画+細分区域の塗りつぶし
+        <input type="radio" name="q1" value="2" checked> 細分区域のみ描画（初期設定）
         <h1>その他設定</h1>
         <h3>実装中...</h3>
         <button id="save" onclick="save()">保存</button>

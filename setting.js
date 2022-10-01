@@ -14,6 +14,19 @@ const QuakeOnChange = (e) => {
 function save() {
     localStorage.setItem('EEWInterval', document.getElementById('EEWInt').value);
     localStorage.setItem('QuakeInterval', document.getElementById('QuakeInt').value);
+
+    let elements = document.getElementsByName('q1');
+    let len = elements.length;
+    let Value = '';
+
+    for (let i = 0; i < len; i++) {
+        if (elements.item(i).checked) {
+            Value = elements.item(i).value;
+        }
+    }
+
+    localStorage.setItem('Quake_Mode', Value);
+
     var result = window.confirm("設定を保存しました。\nメイン画面に戻りますか？");
 
     if (result) {
