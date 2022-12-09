@@ -26,6 +26,18 @@ function save() {
     }
 
     localStorage.setItem('Quake_Mode', Value);
+    
+    elements = document.getElementsByName('q2');
+    len = elements.length;
+    Value = '';
+
+    for (let i = 0; i < len; i++) {
+        if (elements.item(i).checked) {
+            Value = elements.item(i).value;
+        }
+    }
+
+    localStorage.setItem('KyoshinMonitor_Use', Value);
 
     var result = window.confirm("設定を保存しました。\nメイン画面に戻りますか？");
 
