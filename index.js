@@ -4,8 +4,6 @@ const AreaCode = ["100", "101", "102", "105", "106", "107", "110", "115", "116",
 
 const AreaName = ["石狩地方北部", "石狩地方中部", "石狩地方南部", "渡島地方北部", "渡島地方東部", "渡島地方西部", "檜山地方", "後志地方北部", "後志地方東部", "後志地方西部", "北海道奥尻島", "空知地方北部", "空知地方中部", "空知地方南部", "上川地方北部", "上川地方中部", "上川地方南部", "留萌地方中北部", "留萌地方南部", "宗谷地方北部", "宗谷地方南部", "北海道利尻礼文", "網走地方", "北見地方", "紋別地方", "胆振地方西部", "胆振地方中東部", "日高地方西部", "日高地方中部", "日高地方東部", "十勝地方北部", "十勝地方中部", "十勝地方南部", "釧路地方北部", "釧路地方中南部", "根室地方北部", "根室地方中部", "根室地方南部", "青森県津軽北部", "青森県津軽南部", "青森県三八上北", "青森県下北", "岩手県沿岸北部", "岩手県沿岸南部", "岩手県内陸北部", "岩手県内陸南部", "宮城県北部", "宮城県南部", "宮城県中部", "秋田県沿岸北部", "秋田県沿岸南部", "秋田県内陸北部", "秋田県内陸南部", "山形県庄内", "山形県最上", "山形県村山", "山形県置賜", "福島県中通り", "福島県浜通り", "福島県会津", "茨城県北部", "茨城県南部", "栃木県北部", "栃木県南部", "群馬県北部", "群馬県南部", "埼玉県北部", "埼玉県南部", "埼玉県秩父", "千葉県北東部", "千葉県北西部", "千葉県南部", "東京都２３区", "東京都多摩東部", "東京都多摩西部", "神津島", "伊豆大島", "新島", "三宅島", "八丈島", "小笠原", "神奈川県東部", "神奈川県西部", "新潟県上越", "新潟県中越", "新潟県下越", "新潟県佐渡", "富山県東部", "富山県西部", "石川県能登", "石川県加賀", "福井県嶺北", "福井県嶺南", "山梨県中・西部", "山梨県東部・富士五湖", "長野県北部", "長野県中部", "長野県南部", "岐阜県飛騨", "岐阜県美濃東部", "岐阜県美濃中西部", "静岡県伊豆", "静岡県東部", "静岡県中部", "静岡県西部", "愛知県東部", "愛知県西部", "三重県北部", "三重県中部", "三重県南部", "滋賀県北部", "滋賀県南部", "京都府北部", "京都府南部", "大阪府北部", "大阪府南部", "兵庫県北部", "兵庫県南東部", "兵庫県南西部", "兵庫県淡路島", "奈良県", "和歌山県北部", "和歌山県南部", "鳥取県東部", "鳥取県中部", "鳥取県西部", "島根県東部", "島根県西部", "島根県隠岐", "岡山県北部", "岡山県南部", "広島県北部", "広島県南東部", "広島県南西部", "徳島県北部", "徳島県南部", "香川県東部", "香川県西部", "愛媛県東予", "愛媛県中予", "愛媛県南予", "高知県東部", "高知県中部", "高知県西部", "山口県北部", "山口県西部", "山口県東部", "山口県中部", "福岡県福岡", "福岡県北九州", "福岡県筑豊", "福岡県筑後", "佐賀県北部", "佐賀県南部", "長崎県北部", "長崎県南西部", "長崎県島原半島", "長崎県対馬", "長崎県壱岐", "長崎県五島", "熊本県阿蘇", "熊本県熊本", "熊本県球磨", "熊本県天草・芦北", "大分県北部", "大分県中部", "大分県南部", "大分県西部", "宮崎県北部平野部", "宮崎県北部山沿い", "宮崎県南部平野部", "宮崎県南部山沿い", "鹿児島県薩摩", "鹿児島県大隅", "鹿児島県十島村", "鹿児島県甑島", "鹿児島県種子島", "鹿児島県屋久島", "鹿児島県奄美北部", "鹿児島県奄美南部", "沖縄県本島北部", "沖縄県本島中南部", "沖縄県久米島", "沖縄県大東島", "沖縄県宮古島", "沖縄県石垣島", "沖縄県与那国島", "沖縄県西表島"];
 
-//const colorList = { "a": "#010ed6", "b": "#002ce7", "c": "#0040f4", "d": "#0070da", "e": "#00a8af", "f": "#06d481", "g": "#1fe55e", "h": "#36f63e", "i": "#65fb28", "j": "#88fc1f", "k": "#beff0d", "l": "#d7fe07", "m": "#effe01", "n": "#fef802", "o": "#feea00", "p": "#ffdc02", "q": "#fcbd00", "r": "#fc9e00", "s": "#fc8100", "t": "#fa6300", "u": "#ff4400", "v": "#fc2800", "w": "#f60d00", "x": "#e90000", "y": "#ce0000", "z": "#b00201" };
-const colorList = { "a": "#00000000", "b": "#00000000", "c": "#00000000", "d": "#0000CD", "e": "#00a8af", "f": "#06d481", "g": "#1fe55e", "h": "#36f63e", "i": "#65fb28", "j": "#88fc1f", "k": "#beff0d", "l": "#d7fe07", "m": "#effe01", "n": "#fef802", "o": "#feea00", "p": "#ffdc02", "q": "#fcbd00", "r": "#fc9e00", "s": "#fc8100", "t": "#fa6300", "u": "#ff4400", "v": "#fc2800", "w": "#f60d00", "x": "#e90000", "y": "#ce0000", "z": "#b00201" };
 
 var AreaMaxShindo = Array(808);
 
@@ -15,17 +13,6 @@ var map = L.map('map', { preferCanvas: true, zoomControl: false, worldCopyJump: 
 var geojsonLayer_Japan;
 var geojsonLayer_Saibun;
 var geojsonLayer_Cities;
-
-var radius = 2.5;
-
-var KMoni_Layer = new L.layerGroup();
-
-var KMoni_Use = 0;
-if (localStorage.getItem('KyoshinMonitor_Use') != null) {
-    KMoni_Use = Number(localStorage.getItem('KyoshinMonitor_Use'));
-}
-
-var PointList;
 
 var PW;
 var SW;
@@ -70,30 +57,11 @@ var Color_0 = "#008b8b";
 var MojiColor_0 = "#ffffff";
 
 map.on('zoomend', function () {
-    var zoom = map.getZoom();
-    if (zoom > 9) {
+    if (map.getZoom() > 9) {
         map.addLayer(geojsonLayer_Cities);
     } else {
         map.removeLayer(geojsonLayer_Cities);
     }
-
-    if(zoom > 10){
-        radius = 15;
-    }else if(zoom > 9){
-        radius = 12;
-    }else if(zoom > 8){
-        radius = 10;
-    }else if(zoom > 7){
-        radius = 7;
-    }else if(zoom > 6){
-        radius = 4;
-    }else if(zoom > 5){
-        radius = 2;
-    }else{
-        radius = 0.5;
-    }
-
-    console.log("ズームレベル : "+zoom);
 });
 
 if (localStorage.getItem('QuakeInterval') != null) {
@@ -113,21 +81,21 @@ var myPolygonStyle_0 = {
 
 var myPolygonStyle_1 = {
     "color": "#FFFFFF",
-    "weight": 0.2,
+    "weight": 0.6,
     "opacity": 0.5,
     fillOpacity: 0
 }
 
 var myPolygonStyle_2 = {
     "color": "#FFFFFF",
-    "weight": 0.3,
+    "weight": 0.7,
     "opacity": 0.5,
     fillOpacity: 0
 }
 
 var myPolygonStyle_3 = {
     "color": "#FFFFFF",
-    "weight": 0.5,
+    "weight": 0.9,
     "fillColor": "#494A49",
     fillOpacity: 1
 }
@@ -213,11 +181,7 @@ async function geojson() {
                         })
                 })
         })
-    var response_100 = fetch("https://weather-kyoshin.east.edge.storage-yahoo.jp/SiteList/sitelist.json")
-        .then(response_100 => response_100.json())
-        .then(data => {
-            PointList = data;
-        })
+
 }
 
 geojson();
@@ -341,7 +305,6 @@ function QuakeSelect(num) {
 
     map.eachLayer(function (layer) {
 
-        //console.log(layer.myTag)
         if (layer.myTag && layer.myTag === "Shindo") {
             map.removeLayer(layer)
         }
@@ -409,43 +372,43 @@ function QuakeSelect(num) {
                 var PointShindo = "";
                 var PointColor;
                 if (element["scale"] == 10) {
-                    ImgUrl = "Source/int1.jpg"
+                    ImgUrl = "Source/int1.png"
                     PointShindo = "震度1";
                     PointColor = Color_1;
                 } else if (element["scale"] == 20) {
-                    ImgUrl = "Source/int2.jpg"
+                    ImgUrl = "Source/int2.png"
                     PointColor = Color_2;
                     PointShindo = "震度2";
                 } else if (element["scale"] == 30) {
-                    ImgUrl = "Source/int3.jpg"
+                    ImgUrl = "Source/int3.png"
                     PointColor = Color_3;
                     PointShindo = "震度3";
                 } else if (element["scale"] == 40) {
-                    ImgUrl = "Source/int4.jpg"
+                    ImgUrl = "Source/int4.png"
                     PointColor = Color_4;
                     PointShindo = "震度4";
                 } else if (element["scale"] == 45) {
-                    ImgUrl = "Source/int50.jpg"
+                    ImgUrl = "Source/int50.png"
                     PointColor = Color_50;
                     PointShindo = "震度5弱";
                 } else if (element["scale"] == 46) {
-                    ImgUrl = "Source/int50.jpg"
+                    ImgUrl = "Source/int50.png"
                     PointColor = Color_50;
                     PointShindo = "震度5弱以上と推定";
                 } else if (element["scale"] == 50) {
-                    ImgUrl = "Source/int55.jpg"
+                    ImgUrl = "Source/int55.png"
                     PointColor = Color_55;
                     PointShindo = "震度5強";
                 } else if (element["scale"] == 55) {
-                    ImgUrl = "Source/int60.jpg"
+                    ImgUrl = "Source/int60.png"
                     PointColor = Color_60;
                     PointShindo = "震度6弱";
                 } else if (element["scale"] == 60) {
-                    ImgUrl = "Source/int65.jpg"
+                    ImgUrl = "Source/int65.png"
                     PointColor = Color_65;
                     PointShindo = "震度6強";
                 } else if (element["scale"] == 70) {
-                    ImgUrl = "Source/int7.jpg"
+                    ImgUrl = "Source/int7.png"
                     PointColor = Color_7;
                     PointShindo = "震度7";
                 }
@@ -902,10 +865,9 @@ async function GetEEW() {
                     } else if (NowMode == 1) {
                         Auto_changed = false;
                         QuakeSelect(0);
-                    } else {
+                    }else{
                         Auto_changed = false;
                     }
-                    ShowKMoni(data);
                 })
             GetTiming = 0;
         } else {
@@ -916,7 +878,7 @@ async function GetEEW() {
 }
 
 function ShowEEW(Json) {
-    if (Auto_changed == true) {
+    if(Auto_changed == true){
         return;
     }
     NowMode = 1;
@@ -1033,7 +995,7 @@ function ShowEEW(Json) {
     if ((Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)) < 5.5) {
         map.flyTo(new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1)), 30 / (Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)), { duration: 0.5 });
     } else {
-        map.flyTo(new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1)), 45 / (Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)), { duration: 0.2 });
+        map.flyTo(new L.LatLng(Json["hypoInfo"]["items"][0]["latitude"].slice(1), Json["hypoInfo"]["items"][0]["longitude"].slice(1)), 45 / (Number(Json["hypoInfo"]["items"][0]["magnitude"]).toFixed(1)), { duration: 0.5 });
     }
 }
 
@@ -1093,52 +1055,16 @@ function FillPolygon(mode, num, color) {
         console.log(e.message);
     }
 }
-function footer() {
-    if (footer_open == false) {
+function footer(){
+    if(footer_open == false){
         document.getElementById("footer").style.visibility = "visible";
         document.getElementById("footerbutton").innerText = "×";
         document.getElementById("footerbutton").style.bottom = "160px";
         footer_open = true;
-    } else {
+    }else{
         document.getElementById("footer").style.visibility = "hidden";
         document.getElementById("footerbutton").innerText = "⌂";
         document.getElementById("footerbutton").style.bottom = "0px";
         footer_open = false;
     }
-}
-
-function ShowKMoni(json) {
-    //var aaa = 0;
-    //map.eachLayer(function (layer) {
-    //    aaa++;
-    //});
-    //console.log(aaa);
-
-    if(KMoni_Use == 0){
-        return;
-    }
-    
-    KMoni_Layer.clearLayers();
-
-    var intensity = json["realTimeData"]["intensity"];
-
-    var a = 0;
-    PointList["items"].forEach(point => {
-        //console.log(point[0] + "," + point[1]);
-
-        var circle = L.circleMarker([point[0], point[1]], {
-            radius: radius,
-            color: ConvertStringToColor(intensity.charAt(a)),
-            fillOpacity: 1
-        })
-
-        KMoni_Layer.addLayer(circle);
-        a++;
-    });
-    map.addLayer(KMoni_Layer);
-}
-
-function ConvertStringToColor(string) {
-    //console.log(colorList[string]);
-    return colorList[string];
 }
