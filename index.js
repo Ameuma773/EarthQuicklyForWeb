@@ -25,6 +25,9 @@ var geojsonLayer_Cities;
 var PW;
 var SW;
 
+var zoom;
+
+var Moji_Layer = new L.layerGroup();
 var Filled_Layer;
 
 //var JsonString_Japan = "";
@@ -65,11 +68,19 @@ var Color_0 = "#008b8b";
 var MojiColor_0 = "#ffffff";
 
 map.on('zoomend', function () {
-    if (map.getZoom() > 9) {
+    zoom = map.getZoom();
+    if (zoom > 9) {
         map.addLayer(geojsonLayer_Cities);
     } else {
         map.removeLayer(geojsonLayer_Cities);
     }
+    if (zoom > 7) {
+        map.addLayer(Moji_Layer);
+    } else {
+        map.removeLayer(Moji_Layer);
+    }
+
+    console.log("ズームレベル : " + zoom);
 
     //FillPolygon(2,"2610400","#FF0000");
 });
@@ -325,6 +336,7 @@ function QuakeSelect(num) {
     });
 
     Filled_Layer = null;
+    Moji_Layer.clearLayers();
 
     if (QuakeJson[num]["issue"]["type"] != "ScalePrompt") {
         var geojsonFeature = [{
@@ -495,7 +507,7 @@ function QuakeSelect(num) {
 
                 if (Quake_Mode == 3) {
                     var array_Num = CityCode.indexOf(JMAPointsJson[result]["city"]["code"]);
-                    if(CityMaxShindo[array_Num] < PointInt || CityMaxShindo[array_Num] == undefined){
+                    if (CityMaxShindo[array_Num] < PointInt || CityMaxShindo[array_Num] == undefined) {
                         CityMaxShindo[array_Num] = PointInt;
                     }
                     console.log(array_Num);
@@ -510,7 +522,7 @@ function QuakeSelect(num) {
             }
         });
 
-        if(Quake_Mode == 3){
+        if (Quake_Mode == 3) {
             for (let iii = 0; iii < CityMaxShindo.length; iii++) {
                 var element = CityMaxShindo[iii];
                 var ImgUrl = "";
@@ -558,12 +570,12 @@ function QuakeSelect(num) {
                     PointShindo = "震度7";
                 }
 
-                if(PointShindo != ""){
+                if (PointShindo != "") {
                     FillPolygon(2, CityCode[iii], PointColor);
                     console.log(CityCode[iii]);
                 }
 
-                console.log(element);
+                //console.log(element);
             }
         }
 
@@ -620,8 +632,9 @@ function QuakeSelect(num) {
                 }
                 if (Quake_Mode == 2 || Quake_Mode == 3) {
 
+                    MapShow_Name(1, iii.toString());
                     var array_Num = AreaCode.indexOf(iii.toString());
-                    
+
                     var Center_Latitude = Saibun_Center_Latitude[array_Num];
                     var Center_Longitude = Saibun_Center_Longitude[array_Num];
 
@@ -738,19 +751,18 @@ function QuakeSelect(num) {
 
             var area_Code = AreaNameToCode(element["addr"]);
             FillPolygon(1, area_Code, PointColor);
+            MapShow_Name(1, area_Code);
 
-            var latlon;
-            map.eachLayer(function (layer) {
-                if (layer.myTag && layer.myTag === "Filled") {
-                    latlon = layer.getCenter();
-                }
-            })
+            var array_Num = AreaCode.indexOf(area_Code);
+
+            var Center_Latitude = Saibun_Center_Latitude[array_Num];
+            var Center_Longitude = Saibun_Center_Longitude[array_Num];
 
             var geojsonFeature = [{
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [latlon["lng"], latlon["lat"]]
+                    "coordinates": [Center_Longitude, Center_Latitude]
                 }
             }];
             L.geoJson(geojsonFeature,
@@ -1174,5 +1186,34 @@ function footer() {
         document.getElementById("footerbutton").innerText = "⌂";
         document.getElementById("footerbutton").style.bottom = "0px";
         footer_open = false;
+    }
+}
+
+function MapShow_Name(mode, code) {
+    if (mode == 1) {
+        var name = AreaCodeToName(code);
+        var array_Num = AreaCode.indexOf(code);
+        var Center_Latitude = Saibun_Center_Latitude[array_Num];
+        var Center_Longitude = Saibun_Center_Longitude[array_Num];
+
+        var divIcon1 = L.divIcon({
+            html: '<font size="5.5" style="font-weight: bolder; text-shadow: -1.5px -1.5px 0 black, 1.5px -1.5px 0 black, -1.5px 1.5px 0 black, 1.5px 1.5px 0 black;">' + name + '</font>',
+            className: 'divicon1',
+            iconSize: [500, 50],
+            iconAnchor: [-30, 15]
+        });
+        var hoge_layer = L.marker([Center_Latitude, Center_Longitude], {
+            icon: divIcon1,
+            onEachFeature: function (feature, layer) {
+                if (feature.properties && feature.properties.popupContent) {
+                    layer.bindPopup(feature.properties.popupContent);
+                }
+                layer.myTag = "Filled"
+            },
+        });
+        Moji_Layer.addLayer(hoge_layer);
+        map.addLayer(Moji_Layer);
+    } else if (mode == 2) {
+
     }
 }
