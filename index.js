@@ -90,6 +90,22 @@ map.on('zoomend', function () {
     } else {
         map.removeLayer(Moji_Layer);
     }
+    
+    if(zoom > 10){
+        radius = 15;
+    }else if(zoom > 9){
+        radius = 12;
+    }else if(zoom > 8){
+        radius = 10;
+    }else if(zoom > 7){
+        radius = 7;
+    }else if(zoom > 6){
+        radius = 4;
+    }else if(zoom > 5){
+        radius = 2;
+    }else{
+        radius = 0.5;
+    }
 
     console.log("ズームレベル : " + zoom);
 
