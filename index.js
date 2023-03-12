@@ -35,6 +35,7 @@ var zoom;
 
 var Moji_Layer = new L.layerGroup();
 var Filled_Layer;
+var KMoni_Layer = new L.layerGroup();
 
 //var JsonString_Japan = "";
 var JsonString_Saibun;
