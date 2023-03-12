@@ -31,6 +31,8 @@ var geojsonLayer_Cities;
 var PW;
 var SW;
 
+var radius = 2.5;
+
 var PointList;
 
 var zoom;
