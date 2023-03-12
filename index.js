@@ -31,6 +31,8 @@ var geojsonLayer_Cities;
 var PW;
 var SW;
 
+var PointList;
+
 var zoom;
 
 var Moji_Layer = new L.layerGroup();
@@ -209,7 +211,11 @@ async function geojson() {
                         })
                 })
         })
-
+        var response_100 = fetch("https://weather-kyoshin.east.edge.storage-yahoo.jp/SiteList/sitelist.json")
+        .then(response_100 => response_100.json())
+        .then(data => {
+            PointList = data;
+        })
 }
 
 geojson();
