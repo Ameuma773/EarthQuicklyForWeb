@@ -987,7 +987,7 @@ async function GetEEW() {
     const NowTime = date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2) + '' + ('0' + date.getHours()).slice(-2) + '' + ('0' + date.getMinutes()).slice(-2) + '' + ('0' + date.getSeconds()).slice(-2);
     const NowClockTime = date.getFullYear() + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
     const NowDay = date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
-    const url = "https://weather-kyoshin.west.edge.storage-yahoo.jp/RealTimeData/" + NowDay + "/" + NowTime + ".json";
+    const url = "https://weather-kyoshin.east.edge.storage-yahoo.jp/RealTimeData/" + NowDay + "/" + NowTime + ".json";
 
     if (EEW_Use == 1) {
         if (GetTiming >= GetEEWInterval - 1) {
